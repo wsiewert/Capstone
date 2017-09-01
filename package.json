@@ -1,0 +1,22 @@
+{
+  "name": "capstone",
+  "version": "1.0.0",
+  "description": "cryptocurrency trading platform",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wsiewert/Capstone.git"
+  },
+  "author": "William Siewert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wsiewert/Capstone/issues"
+  },
+  "homepage": "https://github.com/wsiewert/Capstone#readme",
+  "dependencies": {
+    "electron": "^1.7.5"
+  }
+}
