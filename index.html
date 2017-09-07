@@ -6,15 +6,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <title>CryptoTrade</title>
   </head>
+
+  <!--BODY---------->
   <body>
     <h1>CryptoTrade</h1>
     <h2>A cryptocurrency trading platform made easy.</h2>
     <p>Powered by Coinbase.</p>
     <div id="output"></div>
-    <!-- <div class="web-view-example">
-      <webview id="foo" src="https://www.github.com/" style="display:inline-flex; width:640px; height:480px"></webview>
-    </div> -->
   </body>
+
+  <!--SCRIPTS---------->
   <script>
     let output = `
     <ul class="list-group">
@@ -22,6 +23,9 @@
     </ul>
     `;
     document.getElementById('output').innerHTML = output;
+
+    //xhttp request for coinbase login
+
   </script>
   <script>
     require('./renderer.js');

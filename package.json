@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/wsiewert/Capstone#readme",
   "dependencies": {
-    "electron": "^1.7.5"
+    "electron": "^1.7.5",
+    "electron-oauth2": "^3.0.0"
   }
 }

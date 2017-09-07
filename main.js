@@ -12,9 +12,7 @@ function createWindow() {
     protocol: 'file:',
     slashes: true
   }));
-
-  win.webContents.openDevTools();
-
+  //win.webContents.openDevTools();
   win.on('closed', () => {
     win = null;
   })
@@ -27,7 +25,7 @@ app.on('window-all-closed', () => {
     //quits on MacOS
     app.quit();
   } else if (process.platform !== ' darwin'){
-    //quits on windowsOS
+    //quits on windowsOS/LinuxOS
     app.quit();
   }
 });
