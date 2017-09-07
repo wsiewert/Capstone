@@ -1,4 +1,5 @@
 const {app, BrowserWindow} = require('electron');
+const nativeImage = require('electron').nativeImage;
 const path = require('path');
 const url = require('url');
 
@@ -12,7 +13,7 @@ function createWindow() {
     protocol: 'file:',
     slashes: true
   }));
-  //win.webContents.openDevTools();
+  win.webContents.openDevTools();
   win.on('closed', () => {
     win = null;
   })
