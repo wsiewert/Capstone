@@ -2,42 +2,6 @@ const BrowserWindow = require('electron').remote.BrowserWindow;
 var $ = require('jQuery');
 //==============================================================================================>
 
-
-// const electronOauth2 = require('electron-oauth2');
-//
-// let config = {
-//   clientId: '',
-//   clientSecret: '',
-//   authorizationUrl: '',
-//   tokenUrl: 'https://api.coinbase.com/oauth/token',
-//   useBasicAuthorizationHeader: false,
-//   redirectUri: ''
-// };
-//
-// const windowParams = {
-//     height: 800,
-//     width: 800,
-//     alwaysOnTop: true,
-//     autoHideMenuBar: true,
-//     webPreferences: {
-//       nodeIntegration: false
-//   }
-// };
-//
-// const options = {
-//   scope: ['wallet:user:email','wallet:accounts:read'],
-//   accessType: 'code'
-// }
-//
-// const coindbaseOauth = electronOauth2(config, windowParams);
-//
-// coindbaseOauth.getAccessToken(options)
-// .then(token => {
-//   console.log("STUFF HAPPENED");
-// });
-
-
-//==============================================================================================>
 var useSandbox = false;
 var productionAuthURI = 'https://www.coinbase.com/oauth/authorize/?';
 const clientSecret = "";
@@ -109,29 +73,18 @@ let authCode = "Auth code not found.";
 let authCodeCallback = "https://www.coinbase.com/oauth/authorize/";
 let tokenRequestURL = "https://api.coinbase.com/oauth/token?";
 
-//Create a new BrowserWindow for authentication.
 function getCoinbaseLoginWindow() {
   let redirectRequestCount = 0;
   let authWindow = new BrowserWindow({ width: 800, height: 800, show: false, webPreferences: { nodeIntegration: false }});
+
   authWindow.on('close', function() {authWindow = null});
   authWindow.loadURL(buildAuthURI(appArgs, metaArgs, scopes));
   authWindow.show();
-  // authWindow.webContents.on('did-get-redirect-request', (event, oldUrl, newUrl) => {
-  //   //alert(window.localStorage);
-  //   redirectRequestCount++;
-  //   if(redirectRequestCount === 3){
-  //     //alert(authCode);
-  //     //authWindow.close();
-  //     authCode = document.getElementsByTagName("title")[0].innerHTML;
-  //     console.log(authCode);
-  //   }
-  // });
 
   authWindow.webContents.on('will-navigate', (event, url) => {
     redirectRequestCount++;
     if(redirectRequestCount === 2){
       authCode = url.toString().substr(authCodeCallback.length);
-      //alert(authCode);
       //authWindow.close();
       getAccessToken();
     }
@@ -151,6 +104,7 @@ function getCoinbaseLoginWindow() {
         console.log(data);
       }
     );
+    //return access token
     return "access token goes here";
   }
 
