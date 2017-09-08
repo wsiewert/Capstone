@@ -1,4 +1,5 @@
 const BrowserWindow = require('electron').remote.BrowserWindow;
+var $ = require('jQuery');
 //==============================================================================================>
 
 
@@ -39,6 +40,7 @@ const BrowserWindow = require('electron').remote.BrowserWindow;
 //==============================================================================================>
 var useSandbox = false;
 var productionAuthURI = 'https://www.coinbase.com/oauth/authorize/?';
+const clientSecret = "";
 
 var appArgs = {
   client_id         : '',
@@ -101,11 +103,11 @@ function buildAuthURI( appArgs, metaArgs, scopes ){
   return authURI;
 }
 
-
 //=====================================================================================================>
 
-let authCode = "NOT THE CODE";
+let authCode = "Auth code not found.";
 let authCodeCallback = "https://www.coinbase.com/oauth/authorize/";
+let tokenRequestURL = "https://api.coinbase.com/oauth/token?";
 
 //Create a new BrowserWindow for authentication.
 function getCoinbaseLoginWindow() {
@@ -130,7 +132,27 @@ function getCoinbaseLoginWindow() {
     if(redirectRequestCount === 2){
       authCode = url.toString().substr(authCodeCallback.length);
       //alert(authCode);
+      //authWindow.close();
+      getAccessToken();
     }
   });
+
+  function getAccessToken() {
+    $.post(tokenRequestURL,
+      {
+        grant_type: 'authorization_code',
+        code: authCode,
+        client_id: appArgs.client_id,
+        client_secret: clientSecret,
+        redirect_uri: appArgs.redirect_uri
+      },
+      function(data, status){
+        console.log(status);
+        console.log(data);
+      }
+    );
+    return "access token goes here";
+  }
+
 }
 getCoinbaseLoginWindow();
