@@ -1,1 +1,3 @@
-console.log("feed.js is working!");
+const Store = require('electron-store');
+const store = new Store();
+console.log(store.store);

@@ -88,14 +88,11 @@ function getCoinbaseLoginWindow() {
     redirectRequestCount++;
     if(redirectRequestCount === 2){
       authCode = url.toString().substr(authCodeCallback.length);
-      accessTokenObject = getAccessToken();
-      console.log("got access token");
-      //authWindow.close();
+      getAccessToken();
     }
   });
 
   function getAccessToken() {
-    let token = {};
     $.post(tokenRequestURL,
       {
         grant_type: 'authorization_code',
@@ -105,29 +102,31 @@ function getCoinbaseLoginWindow() {
         redirect_uri: appArgs.redirect_uri
       },
       function(data, status){
-        console.log(status);
         if(status.toLowerCase() === "success"){
-          token = data;
           loginSuccess = true;
+          accessTokenObject = data;
           authWindow.close();
-          console.log("loginSuccess changes to true: " + loginSuccess);
         }
       }
     );
-    return token;
   }
 }
 
 function getFeedPage(){
   if(loginSuccess === true){
-    console.log("ipcRenderer did load");
     ipcRenderer.send('navigate-to-feed', () => {});
   }
 }
 
+function setLocalStorage(storeObject) {
+  const store = new Store();
+  store.store = storeObject;
+}
+
 getCoinbaseLoginWindow();
+
 authWindow.on('closed', function() {
-  console.log("window was closed");
+  setLocalStorage(accessTokenObject);
   getFeedPage();
   authWindow = {};
 });

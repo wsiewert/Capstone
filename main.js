@@ -8,7 +8,14 @@ const {ipcMain} = require('electron');
 let firstTimeLoggedIn = true;
 let win;
 
-//check local storage, if user exists, set firstTimeLoggedIn = false.
+//=======DEVELOPER========>
+//clear all local storage.
+// const store = new Store();
+// store.clear();
+// console.log(store.store);
+//=======DEVELOPER========>
+
+firstTimeLoggedIn = checkLocalStorage();
 
 function createWindow() {
   win = new BrowserWindow({width:800, height:600, minWidth: 500, minHeight: 400, center: true, icon:__dirname+'/img/cryptotradelogo.png'});
@@ -51,7 +58,11 @@ function getInitialStartPageURL() {
   }
 }
 
-// const store = new Store();
-// //store.set('key','value');
-// //console.log(store.get('key'));
-// console.log(store.has('key'));
+function checkLocalStorage() {
+  const store = new Store();
+  if(store.has('refresh_token')){
+    return false;
+  } else {
+    return true;
+  }
+}
