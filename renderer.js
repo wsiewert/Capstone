@@ -1,4 +1,6 @@
 const BrowserWindow = require('electron').remote.BrowserWindow;
+const Store = require('electron-store');
+const {ipcRenderer} = require('electron');
 var $ = require('jQuery');
 //==============================================================================================>
 
@@ -13,7 +15,7 @@ var appArgs = {
 };
 
 var scopes = [
-  // 'wallet:user:read',
+   'wallet:user:read',
   // 'wallet:user:update',
    'wallet:user:email',
    'wallet:accounts:read',
@@ -70,27 +72,30 @@ function buildAuthURI( appArgs, metaArgs, scopes ){
 //=====================================================================================================>
 
 let authCode = "Auth code not found.";
+let accessTokenObject;
 let authCodeCallback = "https://www.coinbase.com/oauth/authorize/";
 let tokenRequestURL = "https://api.coinbase.com/oauth/token?";
+let loginSuccess = false;
+let authWindow;
 
 function getCoinbaseLoginWindow() {
   let redirectRequestCount = 0;
-  let authWindow = new BrowserWindow({ width: 800, height: 800, show: false, webPreferences: { nodeIntegration: false }});
-
+  authWindow = new BrowserWindow({ width: 800, height: 800, show: false, webPreferences: { nodeIntegration: false }});
   authWindow.on('close', function() {authWindow = null});
   authWindow.loadURL(buildAuthURI(appArgs, metaArgs, scopes));
   authWindow.show();
-
   authWindow.webContents.on('will-navigate', (event, url) => {
     redirectRequestCount++;
     if(redirectRequestCount === 2){
       authCode = url.toString().substr(authCodeCallback.length);
+      accessTokenObject = getAccessToken();
+      console.log("got access token");
       //authWindow.close();
-      getAccessToken();
     }
   });
 
   function getAccessToken() {
+    let token = {};
     $.post(tokenRequestURL,
       {
         grant_type: 'authorization_code',
@@ -101,12 +106,28 @@ function getCoinbaseLoginWindow() {
       },
       function(data, status){
         console.log(status);
-        console.log(data);
+        if(status.toLowerCase() === "success"){
+          token = data;
+          loginSuccess = true;
+          authWindow.close();
+          console.log("loginSuccess changes to true: " + loginSuccess);
+        }
       }
     );
-    //return access token
-    return "access token goes here";
+    return token;
   }
-
 }
+
+function getFeedPage(){
+  if(loginSuccess === true){
+    console.log("ipcRenderer did load");
+    ipcRenderer.send('navigate-to-feed', () => {});
+  }
+}
+
 getCoinbaseLoginWindow();
+authWindow.on('closed', function() {
+  console.log("window was closed");
+  getFeedPage();
+  authWindow = {};
+});
