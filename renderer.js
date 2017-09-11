@@ -4,14 +4,13 @@ const {ipcRenderer} = require('electron');
 const $ = require('jQuery');
 const keys = new coinbaseKeys();
 //==============================================================================================>
-
 let useSandbox = false;
 let productionAuthURI = 'https://www.coinbase.com/oauth/authorize/?';
-const clientSecret = keys.clientSecret;
+let clientSecret = keys.clientSecret;
 
 let appArgs = {
   client_id         : keys.clientId,
-  redirect_uri      : keys.redirect_uri,
+  redirect_uri      : keys.redirectUri,
   response_type     : 'code' //don't change this
 };
 
@@ -79,9 +78,13 @@ let tokenRequestURL = "https://api.coinbase.com/oauth/token?";
 let loginSuccess = false;
 let authWindow;
 
+$(".login-coinbase").click(function() {
+  getCoinbaseLoginWindow();
+});
+
 function getCoinbaseLoginWindow() {
   let redirectRequestCount = 0;
-  authWindow = new BrowserWindow({ width: 800, height: 800, show: false, webPreferences: { nodeIntegration: false }});
+  authWindow = new BrowserWindow({ width: 800, height: 800, show: false, alwaysOnTop: true, webPreferences: { nodeIntegration: false }});
   authWindow.on('close', function() {authWindow = null});
   authWindow.loadURL(buildAuthURI(appArgs, metaArgs, scopes));
   authWindow.show();
@@ -91,6 +94,12 @@ function getCoinbaseLoginWindow() {
       authCode = url.toString().substr(authCodeCallback.length);
       getAccessToken();
     }
+  });
+
+  authWindow.on('closed', function() {
+    setLocalStorage(accessTokenObject);
+    getFeedPage();
+    authWindow = {};
   });
 
   function getAccessToken() {
@@ -123,11 +132,3 @@ function setLocalStorage(storeObject) {
   const store = new Store();
   store.store = storeObject;
 }
-
-getCoinbaseLoginWindow();
-
-authWindow.on('closed', function() {
-  setLocalStorage(accessTokenObject);
-  getFeedPage();
-  authWindow = {};
-});
