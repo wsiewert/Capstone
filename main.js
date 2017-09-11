@@ -11,6 +11,7 @@ let win;
 //=======DEVELOPER========>
 //clear all local storage.
 // const store = new Store();
+// console.log(store.store);
 // store.clear();
 // console.log(store.store);
 //=======DEVELOPER========>

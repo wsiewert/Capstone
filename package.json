@@ -20,6 +20,7 @@
     "electron": "^1.7.5",
     "electron-oauth2": "^3.0.0",
     "jquery": "^3.2.1",
-    "electron-store": "^1.2.0"
+    "electron-store": "^1.2.0",
+    "coinbase": "^2.0.6"
   }
 }

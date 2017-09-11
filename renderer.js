@@ -1,20 +1,20 @@
 const BrowserWindow = require('electron').remote.BrowserWindow;
 const Store = require('electron-store');
 const {ipcRenderer} = require('electron');
-var $ = require('jQuery');
+const $ = require('jQuery');
 //==============================================================================================>
 
-var useSandbox = false;
-var productionAuthURI = 'https://www.coinbase.com/oauth/authorize/?';
-const clientSecret = "";
+let useSandbox = false;
+let productionAuthURI = 'https://www.coinbase.com/oauth/authorize/?';
+const clientSecret = '';
 
-var appArgs = {
+let appArgs = {
   client_id         : '',
   redirect_uri      : '',
   response_type     : 'code' //don't change this
 };
 
-var scopes = [
+let scopes = [
    'wallet:user:read',
   // 'wallet:user:update',
    'wallet:user:email',
@@ -46,15 +46,15 @@ var scopes = [
   // 'wallet:withdrawals:create'
 ];
 
-var metaArgs = {
+let metaArgs = {
   send_limit_amount : 100,
   send_limit_currency: 'USD',
   send_limit_period: 'day'
 };
 
 function buildAuthURI( appArgs, metaArgs, scopes ){
-  var authURI = productionAuthURI;
-  var queryParams = [];
+  let authURI = productionAuthURI;
+  let queryParams = [];
   for ( var param in appArgs ){
     if ( appArgs.hasOwnProperty(param) ){
       queryParams.push(encodeURIComponent( param ) + '=' + encodeURIComponent( appArgs[param] ));
