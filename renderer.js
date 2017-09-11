@@ -2,15 +2,16 @@ const BrowserWindow = require('electron').remote.BrowserWindow;
 const Store = require('electron-store');
 const {ipcRenderer} = require('electron');
 const $ = require('jQuery');
+const keys = new coinbaseKeys();
 //==============================================================================================>
 
 let useSandbox = false;
 let productionAuthURI = 'https://www.coinbase.com/oauth/authorize/?';
-const clientSecret = '';
+const clientSecret = keys.clientSecret;
 
 let appArgs = {
-  client_id         : '',
-  redirect_uri      : '',
+  client_id         : keys.clientId,
+  redirect_uri      : keys.redirect_uri,
   response_type     : 'code' //don't change this
 };
 

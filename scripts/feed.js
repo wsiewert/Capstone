@@ -1,11 +1,13 @@
 const Store = require('electron-store');
 const $ = require('jQuery');
+const keys = new coinbaseKeys();
 
 const store = new Store();
 
 const tokenRequestURL = "https://api.coinbase.com/oauth/token?";
-const clientSecret = "";
-const clientId = "";
+const clientSecret = keys.clientSecret;
+const clientId = keys.clientId;
+
 
 //On page load:
 //Get newest access_token whenever page is loaded.
