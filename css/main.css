@@ -53,6 +53,17 @@
   margin-left: 40px;
 }
 
+#feed-price-btc,
+#feed-price-ltc,
+#feed-price-eth{
+  color: #85bb65;
+  font-size: 2.5em;
+}
+
+#feed-price-heading{
+  text-align: center;
+}
+
 .row{
     margin-left: 0;
     margin-right: 0;

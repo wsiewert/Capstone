@@ -6,21 +6,32 @@ const tokenRequestURL = "https://api.coinbase.com/oauth/token?";
 const clientSecret = keys.clientSecret;
 const clientId = keys.clientId;
 const APICallURL = "https://api.coinbase.com/v2/user";
+const Client = require('coinbase').Client;
+let client = new Client({'apiKey': clientId,
+                         'apiSecret': clientSecret});
 let accessTokenString;
 
+client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+  console.log(price);
+  $('#feed-price-btc').html("$ " + price.data.amount);
+});
+client.getBuyPrice({'currencyPair': 'ETH-USD'}, function(err, price) {
+  console.log(price);
+  $('#feed-price-eth').html("$ " + price.data.amount);
+});
+client.getBuyPrice({'currencyPair': 'LTC-USD'}, function(err, price) {
+  console.log(price);
+  $('#feed-price-ltc').html("$ " + price.data.amount);
+});
+
 getNewAccessToken().done(function(data){
-  console.log(data);
-  console.log("--------------------------");
   overwriteLocalStorageTokens(data);
   getUserData().done(function(data){
-    console.log(data);
     addHTMLToPage(data);
     });
 }).fail(function(){console.log("failed to load new access token");});
 
 function getNewAccessToken(){
-  console.log(store.get('access_token'));
-  console.log(store.get('refresh_token'));
   var settings = {
     "async": true,
     "url": "https://api.coinbase.com/oauth/token?grant_type=refresh_token&refresh_token=" + store.get('refresh_token') + "&client_id=" + clientId + "&client_secret=" + clientSecret,
@@ -30,11 +41,9 @@ function getNewAccessToken(){
 }
 
 function overwriteLocalStorageTokens(tokenObject){
-  console.log(store.store);
   store.clear();
   store.store = tokenObject;
   accessTokenString = "Bearer " + store.get('access_token');
-  console.log(store.store);
 }
 
 function getUserData() {

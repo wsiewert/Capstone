@@ -6,12 +6,17 @@ const tokenRequestURL = "https://api.coinbase.com/oauth/token?";
 const clientSecret = keys.clientSecret;
 const clientId = keys.clientId;
 const APICallURL = "https://api.coinbase.com/v2/user";
+const Client = require('coinbase').Client;
+let client = new Client({'apiKey': clientId,
+                         'apiSecret': clientSecret});
 let accessTokenString;
+
 
 getNewAccessToken().done(function(data){
   overwriteLocalStorageTokens(data);
   getUserData().done(function(data){
     addHTMLToPage(data);
+    getUserAccountBalance(data.data.id);
     });
 }).fail(function(){console.log("failed to load new access token");});
 
@@ -41,6 +46,19 @@ function getUserData() {
     }
   }
   return $.ajax(settings);
+}
+
+function getUserAccountBalance(accountId){
+  client.getUser(accountId, function(err, account) {
+    console.log(account);
+    console.log(err);
+  });
+  // $.get("https://api.coinbase.com/v2/users/" + accountId,
+  //   function(data, status){
+  //     console.log(data);
+  //     console.log(status);
+  //   }
+  // );
 }
 
 function addHTMLToPage(userData) {
