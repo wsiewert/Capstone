@@ -28,6 +28,7 @@ getNewAccessToken().done(function(data){
   overwriteLocalStorageTokens(data);
   getUserData().done(function(data){
     addHTMLToPage(data);
+    console.log(data);
     });
 }).fail(function(){console.log("failed to load new access token");});
 
@@ -53,7 +54,8 @@ function getUserData() {
     "url": APICallURL,
     "method": "GET",
     "headers": {
-      "authorization": accessTokenString
+      "authorization": accessTokenString,
+      "cb-version": keys.APIVersion
     }
   }
   return $.ajax(settings);
