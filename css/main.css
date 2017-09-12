@@ -20,6 +20,39 @@
   padding-top: 6em;
 }
 
+#navbar-icon{
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid white;
+}
+
+#profile-page-heading{
+  text-align: center;
+}
+
+#profile-picture{
+  margin-top: 50px;
+  width: 175px;
+  height: 175px;
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+#profile-name-heading{
+  margin-top: 35px;
+}
+
+#trade-history-div{
+  /*text-align: center;*/
+  margin-top: 75px;
+}
+
+#cryptotrade-history-header{
+  margin-bottom: 35px;
+  margin-left: 40px;
+}
+
 .row{
     margin-left: 0;
     margin-right: 0;
@@ -30,11 +63,4 @@
         margin-left: -15px;
         margin-right: -15px;
     }
-}
-
-#navbar-icon{
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: 1px solid white;
 }

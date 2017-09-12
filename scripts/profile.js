@@ -9,18 +9,13 @@ const APICallURL = "https://api.coinbase.com/v2/user";
 let accessTokenString;
 
 getNewAccessToken().done(function(data){
-  console.log(data);
-  console.log("--------------------------");
   overwriteLocalStorageTokens(data);
   getUserData().done(function(data){
-    console.log(data);
     addHTMLToPage(data);
     });
 }).fail(function(){console.log("failed to load new access token");});
 
 function getNewAccessToken(){
-  console.log(store.get('access_token'));
-  console.log(store.get('refresh_token'));
   var settings = {
     "async": true,
     "url": "https://api.coinbase.com/oauth/token?grant_type=refresh_token&refresh_token=" + store.get('refresh_token') + "&client_id=" + clientId + "&client_secret=" + clientSecret,
@@ -30,11 +25,9 @@ function getNewAccessToken(){
 }
 
 function overwriteLocalStorageTokens(tokenObject){
-  console.log(store.store);
   store.clear();
   store.store = tokenObject;
   accessTokenString = "Bearer " + store.get('access_token');
-  console.log(store.store);
 }
 
 function getUserData() {
@@ -53,4 +46,10 @@ function getUserData() {
 function addHTMLToPage(userData) {
   $('#navbar-user-icon').html("<li><a href=\"profile.html\"><img src=\"" + userData.data.avatar_url + "\" alt=\"IMAGE-NOT-FOUND\" id=\"navbar-icon\"></a></li>");
   $('#navbar-user-name').html("<li><a href=\"profile.html\">" + userData.data.name + "</a><li>");
+  $('#profile-picture').attr("src",userData.data.avatar_url);
+  $('#profile-name-heading').html(userData.data.name);
+}
+
+function addHTMLTradeHistory(){
+  //Add trade history from firebase JSON object.
 }
