@@ -6,7 +6,7 @@ const keys = new coinbaseKeys();
 //==============================================================================================>
 let useSandbox = false;
 let productionAuthURI = 'https://www.coinbase.com/oauth/authorize/?';
-let clientSecret = keys.clientSecret;
+const clientSecret = keys.clientSecret;
 
 let appArgs = {
   client_id         : keys.clientId,
@@ -84,7 +84,7 @@ $(".login-coinbase").click(function() {
 
 function getCoinbaseLoginWindow() {
   let redirectRequestCount = 0;
-  authWindow = new BrowserWindow({ width: 800, height: 800, show: false, alwaysOnTop: true, webPreferences: { nodeIntegration: false }});
+  authWindow = new BrowserWindow({ width: 800, height: 800, minWidth: 500, minHeight: 400, show: false, alwaysOnTop: true, webPreferences: { nodeIntegration: false }});
   authWindow.on('close', function() {authWindow = null});
   authWindow.loadURL(buildAuthURI(appArgs, metaArgs, scopes));
   authWindow.show();

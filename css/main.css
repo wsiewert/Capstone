@@ -1,0 +1,40 @@
+#coinbase-login-btn{
+  padding-top: 7em;
+  text-align: center;
+}
+
+#main-menu-title,
+#main-menu-description{
+  text-align: center;
+}
+
+#main-menu-title{
+  font-family: 'Passion One', cursive;
+  font-weight: 200;
+  font-size: 7.5em;
+  letter-spacing: 0.05em;
+  color: #ec5a4f;
+}
+
+#main-menu-div{
+  padding-top: 6em;
+}
+
+.row{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.container{
+    .row{
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+}
+
+#navbar-icon{
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid white;
+}

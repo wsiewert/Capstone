@@ -3,33 +3,36 @@
   <head>
     <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Passion+One:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap_darkly.css">
+    <link rel="stylesheet" href="css/main.css">
     <title>CryptoTrade</title>
   </head>
 
   <!--BODY---------->
   <body>
-    <h1>CryptoTrade</h1>
-    <h2>A cryptocurrency trading platform made easy.</h2>
-    <p>Powered by Coinbase.</p>
-    <div>
-      <button class="login-coinbase" type="button" name="button">Log in with Coinbase</button>
+    <div class="container">
+      <div class="row">
+        <div class="col" id="main-menu-div">
+          <h1 id="main-menu-title">CryptoTrade</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="main-menu-description">
+          <h2>A cryptocurrency trading platform made easy.</h2>
+          <p>Powered by Coinbase</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="coinbase-login-btn">
+          <button class="login-coinbase btn btn-primary" type="button" name="button">Log in with Coinbase</button>
+        </div>
+      </div>
     </div>
-    <!-- <div id="output"></div> -->
   </body>
 
-  <!--SCRIPTS---------->
-  <!-- <script>
-    let output = `
-    <ul class="list-group">
-      <li class="list-group-item">Node: ${process.versions.node}</li>
-    </ul>
-    `;
-    document.getElementById('output').innerHTML = output;
-  </script> -->
-
+  <!--SCRIPTS------->
   <script src="scripts/keys.js"></script>
-  <script>
-    require('./renderer.js');
-  </script>
+  <script>require('./renderer.js');</script>
 </html>

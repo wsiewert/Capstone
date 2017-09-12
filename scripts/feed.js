@@ -8,11 +8,6 @@ const tokenRequestURL = "https://api.coinbase.com/oauth/token?";
 const clientSecret = keys.clientSecret;
 const clientId = keys.clientId;
 
-
-//On page load:
-//Get newest access_token whenever page is loaded.
-    //let refreshedAccessToken = getNewAccessToken().done(function(data) => {return data;});
-//overwriteLocalStorageTokens(getNewAccessToken().done(function(data) {return data;}));
 getNewAccessToken().done(function(data){
   console.log(data);
   console.log("--------------------------");
@@ -23,35 +18,9 @@ getNewAccessToken().done(function(data){
     });
 }).fail(function(){console.log("failed to load new access token");});
 
-//console.log(store.store);
-//Make an API call.
-//load page with HTML information.
-
 const APICallURL = "https://api.coinbase.com/v2/user";
 let accessTokenString;
 
-//====================HELPER FUNCTIONS=============================>
-
-
-
-// function getNewAccessToken() {
-//   //console.log(store.get('refresh_token'));
-//   //console.log(clientId);
-//   let ajaxResult;
-//   let ajaxSettings = {
-//     "async": true,
-//     "url": tokenRequestURL,
-//     "method": "POST",
-//     "grant_type": 'refresh_token',
-//     "refresh_token": store.get('refresh_token'),
-//     "client_id": clientId,
-//     "client_secret": clientSecret
-//   };
-//   ajaxResult = $.ajax(ajaxSettings)
-//   console.log("getNewAccessToken: before return");
-//   return ajaxResult;
-// }
-//===================================getNewAccessToken-POSTMAN-FORMAT===================================>
 function getNewAccessToken(){
   console.log(store.get('access_token'));
   console.log(store.get('refresh_token'));
@@ -63,8 +32,6 @@ function getNewAccessToken(){
   return $.ajax(settings);
 }
 
-//===================================getNewAccessToken-POSTMAN-FORMAT===================================>
-
 function overwriteLocalStorageTokens(tokenObject){
   console.log(store.store);
   store.clear();
@@ -73,7 +40,6 @@ function overwriteLocalStorageTokens(tokenObject){
   console.log(store.store);
 }
 
-//API Call
 function getUserData() {
   let settings = {
     "async": true,
@@ -88,6 +54,6 @@ function getUserData() {
 }
 
 function addHTMLToPage(userData) {
-  $('.image-div').html("<img src=\"" + userData.data.avatar_url + "\" alt=\"IMAGE-NOT-FOUND\">");
-  $('.user-name').html("<h2>" + userData.data.name + "</h2>");
+  $('#navbar-user-icon').html("<li><a href=\"profile.html\"><img src=\"" + userData.data.avatar_url + "\" alt=\"IMAGE-NOT-FOUND\" id=\"navbar-icon\"></a></li>");
+  $('#navbar-user-name').html("<li><a href=\"profile.html\">" + userData.data.name + "</a><li>");
 }
