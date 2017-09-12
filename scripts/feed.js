@@ -1,12 +1,12 @@
 const Store = require('electron-store');
 const $ = require('jQuery');
 const keys = new coinbaseKeys();
-
 const store = new Store();
-
 const tokenRequestURL = "https://api.coinbase.com/oauth/token?";
 const clientSecret = keys.clientSecret;
 const clientId = keys.clientId;
+const APICallURL = "https://api.coinbase.com/v2/user";
+let accessTokenString;
 
 getNewAccessToken().done(function(data){
   console.log(data);
@@ -17,9 +17,6 @@ getNewAccessToken().done(function(data){
     addHTMLToPage(data);
     });
 }).fail(function(){console.log("failed to load new access token");});
-
-const APICallURL = "https://api.coinbase.com/v2/user";
-let accessTokenString;
 
 function getNewAccessToken(){
   console.log(store.get('access_token'));
