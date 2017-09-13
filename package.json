@@ -17,10 +17,12 @@
   },
   "homepage": "https://github.com/wsiewert/Capstone#readme",
   "dependencies": {
+    "coinbase": "^2.0.6",
     "electron": "^1.7.5",
     "electron-oauth2": "^3.0.0",
-    "jquery": "^3.2.1",
     "electron-store": "^1.2.0",
-    "coinbase": "^2.0.6"
+    "google-auth-library": "^0.11.0",
+    "googleapis": "^21.3.0",
+    "jquery": "^3.2.1"
   }
 }
