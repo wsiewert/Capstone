@@ -7,6 +7,7 @@ const clientSecret = keys.clientSecret;
 const clientId = keys.clientId;
 const APICallURL = "https://api.coinbase.com/v2/user";
 const Client = require('coinbase').Client;
+const database = firebase.database();
 let client = new Client({'apiKey': clientId,
                          'apiSecret': clientSecret});
 let accessTokenString;
@@ -60,6 +61,7 @@ $("#sell-btn").click(function(){
 $('#submit-transaction').click(function(){
   //1. Give trade feedback
   //2. add transaction to firebase
+  addTransactionToFirebase();
   //3. send notification email
   //4. if auto-trade use another button to automate and create new BrowserWindow
   //5. alert window shows you made a successful trade.
@@ -67,6 +69,20 @@ $('#submit-transaction').click(function(){
   //6. Refresh page
   location.reload();
 });
+
+function addTransactionToFirebase(){
+  let date = new Date();
+  let formatedDate = date.toString();
+  let transactionData = {
+    date : formatedDate.slice(0,formatedDate.length-15),
+    boughtsold : 'Buy',
+    currency : $('#select').val(),
+    price : $('#total-price-symbol').text()
+  }
+  let uniqueIdListRef = firebase.database().ref('uniqueid');
+  let newTransaction = uniqueIdListRef.push();
+  newTransaction.set(transactionData);
+}
 
 function getNewAccessToken(){
   var settings = {

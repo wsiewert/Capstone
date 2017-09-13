@@ -7,10 +7,12 @@ const clientSecret = keys.clientSecret;
 const clientId = keys.clientId;
 const APICallURL = "https://api.coinbase.com/v2/user";
 const Client = require('coinbase').Client;
+const database = firebase.database();
 let client = new Client({'apiKey': clientId,
                          'apiSecret': clientSecret});
 let accessTokenString;
 
+getTradeHistory();
 
 getNewAccessToken().done(function(data){
   overwriteLocalStorageTokens(data);
@@ -50,8 +52,8 @@ function getUserData() {
 
 function getUserAccountBalance(accountId){
   client.getUser(accountId, function(err, account) {
-    console.log(account);
-    console.log(err);
+    //console.log(account);
+    //console.log(err);
   });
   // $.get("https://api.coinbase.com/v2/users/" + accountId,
   //   function(data, status){
@@ -61,6 +63,18 @@ function getUserAccountBalance(accountId){
   // );
 }
 
+function getTradeHistory() {
+  //let dbRef = firebase.database().ref('transactions');
+  let dbRef = firebase.database().ref('uniqueid');
+  dbRef.on('value', function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      var childData = childSnapshot.val();
+      addHTMLTradeHistory(childData);
+      console.log(childData);
+    });
+  });
+}
+
 function addHTMLToPage(userData) {
   $('#navbar-user-icon').html("<li><a href=\"profile.html\"><img src=\"" + userData.data.avatar_url + "\" alt=\"IMAGE-NOT-FOUND\" id=\"navbar-icon\"></a></li>");
   $('#navbar-user-name').html("<li><a href=\"profile.html\">" + userData.data.name + "</a><li>");
@@ -68,6 +82,11 @@ function addHTMLToPage(userData) {
   $('#profile-name-heading').html(userData.data.name);
 }
 
-function addHTMLTradeHistory(){
-  //Add trade history from firebase JSON object.
+function addHTMLTradeHistory(transactionObject){
+  let boughtsold = transactionObject.boughtsold;
+  let curreny = transactionObject.currency;
+  let date = transactionObject.date;
+  let price = transactionObject.price;
+  let tableString = "<tr><td>" + date + "</td><td>" + boughtsold + "</td><td>" + curreny + "</td><td>" + price + "</td></tr>";
+  $(tableString).prependTo('#transaction-history-entry');
 }
