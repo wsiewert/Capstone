@@ -64,6 +64,24 @@
   text-align: center;
 }
 
+#tv-medium-widget-6d4eb{
+  margin-top: 150px;
+}
+
+#buy-sell-btn-row{
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+
+#total-price-display{
+  text-align: center;
+}
+
+#total-price-symbol{
+  font-size: 4em;
+  color: #85bb65;
+}
+
 .row{
     margin-left: 0;
     margin-right: 0;

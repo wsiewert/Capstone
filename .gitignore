@@ -58,3 +58,5 @@ typings/
 .env
 
 keys.js
+
+firebase.js

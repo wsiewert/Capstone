@@ -12,15 +12,12 @@ let client = new Client({'apiKey': clientId,
 let accessTokenString;
 
 client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-  console.log(price);
   $('#feed-price-btc').html("$ " + price.data.amount);
 });
 client.getBuyPrice({'currencyPair': 'ETH-USD'}, function(err, price) {
-  console.log(price);
   $('#feed-price-eth').html("$ " + price.data.amount);
 });
 client.getBuyPrice({'currencyPair': 'LTC-USD'}, function(err, price) {
-  console.log(price);
   $('#feed-price-ltc').html("$ " + price.data.amount);
 });
 
@@ -65,3 +62,28 @@ function addHTMLToPage(userData) {
   $('#navbar-user-icon').html("<li><a href=\"profile.html\"><img src=\"" + userData.data.avatar_url + "\" alt=\"IMAGE-NOT-FOUND\" id=\"navbar-icon\"></a></li>");
   $('#navbar-user-name').html("<li><a href=\"profile.html\">" + userData.data.name + "</a><li>");
 }
+
+new TradingView.MediumWidget({
+  "container_id": "tv-medium-widget-6d4eb",
+  "symbols": [
+    [
+      "Bitcoin",
+      "COINBASE:BTCUSD|1y"
+    ],
+    [
+      "Ethereum",
+      "COINBASE:ETHUSD|1y"
+    ],
+    [
+      "Litecoin",
+      "COINBASE:LTCUSD|1y"
+    ]
+  ],
+  "gridLineColor": "#e9e9ea",
+  "fontColor": "rgba(101, 101, 101, 1)",
+  "underLineColor": "rgba(66, 66, 66, 1)",
+  "trendLineColor": "rgba(0, 255, 0, 1)",
+  "width": "1200px",
+  "height": "400px",
+  "locale": "en"
+});

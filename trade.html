@@ -26,15 +26,88 @@
         </div>
       </nav>
     </div>
-    <div class="row">
+
+    <!--TRADE HEADING--------->
+    <div id="feed-price-heading" class="row">
+      <div class="col-sm-1"></div>
       <div class="col">
-        <h1>Trade Page</h1>
+        <h2>Bitcoin</h2>
+        <p id="feed-price-btc"></p>
       </div>
+      <div class="col">
+        <h2>Ethereum</h2>
+        <p id="feed-price-eth"></p>
+      </div>
+      <div class="col">
+        <h2>Litecoin</h2>
+        <p id="feed-price-ltc"></p>
+      </div>
+      <div class="col-sm-1"></div>
     </div>
+
+    <!--PURCHASE AND SELL FORM------>
+    <div id="buy-sell-btn-row" class="row">
+      <div class="col-sm-1"></div>
+      <div class="btn-group">
+        <a id="buy-btn" href="#" class="btn btn-primary">BUY</a>
+        <a id="sell-btn" href="#" class="btn btn-success">SELL</a>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-5">
+        <form class="form-horizontal" action="trade.html" method="post">
+          <fieldset>
+            <legend id="buy-or-sell">Buy</legend>
+            <div class="form-group">
+              <label for="select" class="col-sm-2">Currency</label>
+              <select class="form-control col-sm-4" id="select">
+                <option>Bitcoin (BTC)</option>
+                <option>Ethereum (ETH)</option>
+                <option>Litecoin (LTC)</option>
+              </select>
+              <div class="col-sm-1"></div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-7">
+                <div class="input-group">
+                  <span id="currency" class="input-group-addon">$</span>
+                  <input id="purchase-input" type="number" min="1.00" step="0.01" max="2500" class="form-control">
+                  <span class="input-group-btn">
+                    <button id="submit-transaction" class="btn btn-primary" type="button">Buy</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-3">
+                <button id="update-form-btn" class="btn btn-primary" type="button">Update</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-3">
+                <button id="automate-trade" class="btn btn-info" type="button">Automate Trade</button>
+              </div>
+            </div>
+
+          </fieldset>
+        </form>
+      </div>
+      <div id="total-price-display" class="col-sm-5">
+        <h2 id="currency-header">Total Price</h2>
+        <h3 id="total-price-symbol"></h3>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+
+
 
   </body>
 
   <!--SCRIPTS------------->
+  <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+  <script src="firebase/firebase.js"></script>
   <script src="scripts/keys.js"></script>
   <script>
     require('./scripts/trade.js');
