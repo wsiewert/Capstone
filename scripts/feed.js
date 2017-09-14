@@ -6,6 +6,10 @@ const tokenRequestURL = "https://api.coinbase.com/oauth/token?";
 const clientSecret = keys.clientSecret;
 const clientId = keys.clientId;
 const APICallURL = "https://api.coinbase.com/v2/user";
+const mailgunKey = new mailgunKeys();
+let api_key = mailgunKey.apiKey;
+let domain = mailgunKey.domain;
+const mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 const Client = require('coinbase').Client;
 let client = new Client({'apiKey': clientId,
                          'apiSecret': clientSecret});

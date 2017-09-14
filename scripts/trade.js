@@ -9,59 +9,15 @@ const APICallURL = "https://api.coinbase.com/v2/user";
 const Client = require('coinbase').Client;
 const database = firebase.database();
 const mailgunKey = new mailgunKeys();
-//================================================>
-// var fs = require('fs');
-// var readline = require('readline');
-// var google = require('googleapis');
-// var googleAuth = require('google-auth-library');
-// const Base64 = require('js-base64').Base64;
-//================================================>
-
+let api_key = mailgunKey.apiKey;
+let domain = mailgunKey.domain;
+const mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 let client = new Client({'apiKey': clientId,
                          'apiSecret': clientSecret});
 let accessTokenString;
 let btcPrice;
 let ethPrice;
 let ltcPrice;
-
-
-
-
-var api_key = mailgunKey.apiKey;
-var domain = mailgunKey.domain;
-const mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-
-var data = {
-  from: 'Excited User <me@samples.mailgun.org>',
-  to: 'wsiewert94@gmail.com',
-  subject: 'Hello',
-  text: 'Testing some Mailgun awesomness! blah foobar'
-};
-
-mailgun.messages().send(data, function (error, body) {
-  console.log(body);
-});
-
-
-//================================================>
-// sendMessage("wsiewert94@gmail.com", "Hello, email sent!", function(){
-//   console.log("Email Successful!");
-// });
-//
-// function sendMessage(userId, email, callback) {
-//   // Using the js-base64 library for encoding:
-//   // https://www.npmjs.com/package/js-base64
-//   var base64EncodedEmail = Base64.encodeURI(email);
-//   var request = gapi.client.gmail.users.messages.send({
-//     'userId': userId,
-//     'resource': {
-//       'raw': base64EncodedEmail
-//     }
-//   });
-//   request.execute(callback);
-// }
-//================================================>
-
 
 refreshCurrencyValues()
 
@@ -107,16 +63,31 @@ $("#sell-btn").click(function(){
 });
 
 $('#submit-transaction').click(function(){
+  let purchaseString = "You purchased " + $('#total-price-symbol').text() + " " + $('#select').val()
   //1. Give trade feedback
   //2. add transaction to firebase
   addTransactionToFirebase();
   //3. send notification email
+  sendTransactionEmail();
   //4. if auto-trade use another button to automate and create new BrowserWindow
   //5. alert window shows you made a successful trade.
-  alert("Successful Transaction! You purchased " + $('#total-price-symbol').text() + " " + $('#select').val());
+  alert("Successful Transaction! " + purchaseString);
   //6. Refresh page
   location.reload();
 });
+
+function sendTransactionEmail(){
+  let transactionNotification = {
+    from: 'CryptoTrade <me@samples.mailgun.org>',
+    to: 'wsiewert94@gmail.com',
+    subject: 'Transaction Noitification',
+    text: 'You made a purchase: '+ $('#total-price-symbol').text() + " " + $('#select').val()
+  };
+  mailgun.messages().send(transactionNotification, function (error, body) {
+    console.log(body);
+    console.log(error);
+  });
+}
 
 function addTransactionToFirebase(){
   let date = new Date();
