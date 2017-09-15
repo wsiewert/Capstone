@@ -18,15 +18,17 @@ let accessTokenString;
 
 $('#bitcoin-watchlist').click(function(){
   //start new task
-  startNewWatch("btc",100);
+  startNewWatch("btc",parseInt($('.watchlist-price').val()));
 });
 
 $('#ether-watchlist').click(function(){
   //start new task
+  startNewWatch("eth",parseInt($('.watchlist-price').val()));
 });
 
 $('#litecoin-watchlist').click(function(){
   //start new task
+  startNewWatch("ltc",parseInt($('.watchlist-price').val()));
 });
 
 
@@ -85,26 +87,23 @@ function addHTMLToPage(userData) {
 function startNewWatch(currencyType, watchPrice){
   let continueTask = true;
   let watchlistTask;
-  //1. Start new browserwindow
+
   watchlistTask = new BrowserWindow({ width: 150, height: 150, show: true, webPreferences: { nodeIntegration: false }});
-  //2. Run while loop to check every 10 seconds.
+
   watchlistTask.on('ready', checkCurrencyPrice());
 
   function checkCurrencyPrice(){
-    console.log("TASK RAN");
-
+    console.log("Watchlist Task Start");
     let currencyTypeString = currencyType.toUpperCase() + "-USD";
     client.getBuyPrice({'currencyPair': currencyTypeString}, function(err, price) {
-      if(100 < (watchPrice-1) || 100 > (watchPrice+1)){
+      if(price.data.amount < (watchPrice-5) || price.data.amount > (watchPrice+5)){
         checkCurrencyPrice();
       } else {
         console.log("Watchlist task complete");
-        //send email
         sendWatchListEmail(currencyType, price.data.amount);
         watchlistTask.close();
       }
     });
-    // console.log(getCurrencyPricingResult("btc"));
   }
 }
 
@@ -118,47 +117,6 @@ function sendWatchListEmail(currencyType, pricing){
   mailgun.messages().send(transactionNotification, function (error, body) {
   });
 }
-
-// function getCurrencyPricingResult(currencyType){
-//   let result;
-//   getCurrencyPricing((x) => {result = x},currencyType)
-//   console.log(result);
-//   return result;
-// }
-//
-// function getCurrencyPricing(callbackfunc, currencyType){
-//   let currencyTypeString = currencyType.toUpperCase() + "-USD";
-//   client.getBuyPrice({'currencyPair': currencyTypeString}, function(err, price) {
-//     currencyPrice = price.data.amount;
-//     console.log(currencyPrice);
-//     callbackfunc(currencyPrice);
-//   });
-// }
-
-// function getCurrencyPricing(selectedCurrency){
-//   let currencyPrice = 0;
-//   switch (selectedCurrency) {
-//     case "btc":
-//       client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-//         currencyPrice = price.data.amount;
-//       });
-//       return currencyPrice;
-//     case "eth":
-//       client.getBuyPrice({'currencyPair': 'ETH-USD'}, function(err, price) {
-//         console.log("NOT SUPPOSED TO LOG");
-//         return price;
-//       });
-//     case "ltc":
-//       client.getBuyPrice({'currencyPair': 'LTC-USD'}, function(err, price) {
-//         return price;
-//       });
-//     default:
-//     return currencyPrice;
-//   }
-//   return currencyPrice;
-// }
-
-
 
 new TradingView.MediumWidget({
   "container_id": "tv-medium-widget-6d4eb",
